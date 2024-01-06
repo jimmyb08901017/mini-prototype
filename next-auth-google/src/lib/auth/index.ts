@@ -7,22 +7,23 @@ import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import { privateEnv } from "../env/private";
 
-
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
-  providers: [GoogleProvider({
-    clientId: privateEnv.AUTH_GOOGLE_CLIENT_ID!,
-    clientSecret: privateEnv.AUTH_GOOGLE_CLIENT_SECRET!,
-    authorization: {
-      params: {
-        prompt: "consent",
-        access_type: "offline",
-        response_type: "code"
-      }
-    },
-  })],
+  providers: [
+    GoogleProvider({
+      clientId: privateEnv.AUTH_GOOGLE_CLIENT_ID!,
+      clientSecret: privateEnv.AUTH_GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
+  ],
   callbacks: {
     async session({ session, token }) {
       const email = token.email || session?.user?.email;
@@ -64,15 +65,18 @@ export const {
         .from(usersTable)
         .where(eq(usersTable.email, email.toLowerCase()))
         .execute();
-      if (existedUser) return {...token, id: existedUser.id};
+      if (existedUser) return { ...token, id: existedUser.id };
       if (provider !== "google") return token;
-      
+
       // Sign up
-      const [newUser] = await db.insert(usersTable).values({
-        username: name,
-        email: email.toLowerCase(),
-        provider,
-      }).returning();
+      const [newUser] = await db
+        .insert(usersTable)
+        .values({
+          username: name,
+          email: email.toLowerCase(),
+          provider,
+        })
+        .returning();
 
       return {
         ...token,
