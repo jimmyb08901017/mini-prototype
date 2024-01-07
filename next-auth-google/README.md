@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## What I learn from this prototype
+
+1. If some provider can only be used in client component, then use a wrapper, which is client component, and import it where you're suppose to put the original provider.
+
+2. AUTH_SECRET is a necessary component to NextAuth. Remember to set it up.
