@@ -1,14 +1,14 @@
-'use client'
-import React from 'react';
+"use client";
+import React from "react";
 
 /**
  * [Note]
  * If you are using state, then this is a client component. Remember to add 'use client'.
- * 
+ *
  * [Reference]
  * https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/class_components
  * https://react.dev/reference/react/Component
- * 
+ *
  */
 
 // Props pass to the class component
@@ -51,20 +51,27 @@ class Button extends React.Component<MyProps, MyState> {
     this.pointer = 5;
   }
 
-  componentDidUpdate(prevProps, prevState) { // triggered when props/states have changed
+  componentDidUpdate(prevProps, prevState) {
+    // triggered when props/states have changed
     // Update props or states
-    console.log(this.state.count)
+    console.log(this.state.count);
   }
 
-  componentWillUnmount(): void { // triggered when unmount.
+  componentWillUnmount(): void {
+    // triggered when unmount.
     // Should clean up everything done in componentDidmount().
-    this.pointer = 0;      
+    this.pointer = 0;
   }
   ////
 
-  shouldComponentUpdate(nextProps: Readonly<MyProps>, nextState: Readonly<MyState>, nextContext: any): boolean {
+  shouldComponentUpdate(
+    nextProps: Readonly<MyProps>,
+    nextState: Readonly<MyState>,
+    nextContext: any,
+  ): boolean {
     // If return true, component will update(re-render).
-    if(this.pointer > this.state.count) { // pointer can add up to over 5, but no re-render.
+    if (this.pointer > this.state.count) {
+      // pointer can add up to over 5, but no re-render.
       return true;
     }
     return false;
@@ -73,11 +80,10 @@ class Button extends React.Component<MyProps, MyState> {
   // Self-defined class function
   increment = (amt: number) => {
     // like this
-    this.setState((state)=>({
+    this.setState((state) => ({
       count: state.count + amt,
-    }))
-  }
+    }));
+  };
 }
 
 export { Button };
-  
